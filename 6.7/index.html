@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD</title>
+    <style>
+        .card {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px;
+            width: 200px;
+            float: left;
+        }
+        .btn {
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div id="cardsContainer">
+    </div>
+    <script>
+        let cardsData = [
+            { id: 1, title: "Card 1", img: "Programmer.jpg" },
+            { id: 2, title: "Card 2", img: "progremmer1.jpg" },
+            { id: 3, title: "Card 3", img: "Programmer2.jpg" }
+        ];
+
+        function renderCards() {
+            const cardsContainer = document.getElementById("cardsContainer");
+            cardsContainer.innerHTML = '';
+
+            cardsData.forEach(card => {
+                const cardElement = document.createElement("div");
+                cardElement.classList.add("card");
+                cardElement.innerHTML = `
+                    <h3>${card.title}</h3>
+                    <img src="${card.img}" alt="${card.title}" style="width:100%">
+                    <button class="btn" onclick="editCard(${card.id})">Edit</button>
+                    <button class="btn" onclick="deleteCard(${card.id})">Delete</button>
+                `;
+                cardsContainer.appendChild(cardElement);
+            });
+        }
+
+        function editCard(cardId) {
+            const newTitle = prompt("Enter new title:");
+            const newImg = prompt("Enter new image URL:");
+            const cardIndex = cardsData.findIndex(card => card.id === cardId);
+
+            if (cardIndex !== -1) {
+                cardsData[cardIndex].title = newTitle;
+                cardsData[cardIndex].img = newImg;
+                renderCards();
+            }
+        }
+
+        function deleteCard(cardId) {
+            cardsData = cardsData.filter(card => card.id !== cardId);
+            renderCards();
+        }
+        renderCards();
+
+    </script>
+</body>
+</html>
